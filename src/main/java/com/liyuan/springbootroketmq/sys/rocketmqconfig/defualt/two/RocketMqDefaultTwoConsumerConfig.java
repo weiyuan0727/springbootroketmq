@@ -1,4 +1,4 @@
-package com.liyuan.springbootroketmq.sys.rocketmqconfig.defualt;
+package com.liyuan.springbootroketmq.sys.rocketmqconfig.defualt.two;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
@@ -19,7 +19,7 @@ import javax.annotation.Resource;
  */
 @Configuration
 @Slf4j
-public class RocketMqDefaultConsumerConfig {
+public class RocketMqDefaultTwoConsumerConfig {
     @Value("${rocketmq.consumer.namesrvAddr}")
     private String namesrvAddr;
     @Value("${rocketmq.consumer.groupName}")
@@ -31,15 +31,16 @@ public class RocketMqDefaultConsumerConfig {
     @Value("${rocketmq.consumer.consumeMessageBatchMaxSize}")
     private int consumeMessageBatchMaxSize;
     @Resource
-    private RocketDefaultConsumerMsgListener msgListener;
+    private RocketDefaultTwoConsumerMsgListener msgListener;
 
-    @Bean("defaultConsumer")
+    @Bean("defaultConsumerTwo")
     public DefaultMQPushConsumer getRocketMQConsumer() {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(groupName);
         consumer.setNamesrvAddr(namesrvAddr);
         consumer.setConsumeThreadMin(consumeThreadMin);
         consumer.setConsumeThreadMax(consumeThreadMax);
         consumer.registerMessageListener(msgListener);
+        consumer.setInstanceName("two");//同一ip下同一jvm不可相同
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);
         consumer.setConsumeMessageBatchMaxSize(consumeMessageBatchMaxSize);
         try {

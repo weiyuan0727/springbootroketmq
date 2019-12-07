@@ -1,4 +1,4 @@
-package com.liyuan.springbootroketmq.sys.rocketmqconfig.defualt;
+package com.liyuan.springbootroketmq.sys.rocketmqconfig.defualt.two;
 
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
@@ -18,9 +18,9 @@ import java.util.List;
  * @date 2019/12/3/00322:59
  */
 @Component
-public class RocketDefaultConsumerMsgListener implements MessageListenerConcurrently {
-    private static final Logger LOG = LoggerFactory.getLogger(RocketDefaultConsumerMsgListener.class) ;
-    private Logger logger = LoggerFactory.getLogger(RocketDefaultConsumerMsgListener.class);
+public class RocketDefaultTwoConsumerMsgListener implements MessageListenerConcurrently {
+    private static final Logger LOG = LoggerFactory.getLogger(RocketDefaultTwoConsumerMsgListener.class) ;
+    private Logger logger = LoggerFactory.getLogger(RocketDefaultTwoConsumerMsgListener.class);
     @Override
     public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list, ConsumeConcurrentlyContext consumeConcurrentlyContext) {
         logger.info("===============ConsumerTransactionListener=消费消息==============");
@@ -29,7 +29,7 @@ public class RocketDefaultConsumerMsgListener implements MessageListenerConcurre
             String topic = msg.getTopic();
             try {
 
-                logger.info(new String(msg.getBody()));
+                logger.info("Two"+new String(msg.getBody()));
                 //System.out.println(1 / 0);//测试异常重试
             } catch (Exception e) {
                 e.printStackTrace();
