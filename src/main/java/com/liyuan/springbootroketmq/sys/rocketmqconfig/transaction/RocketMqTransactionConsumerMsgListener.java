@@ -1,4 +1,4 @@
-package com.liyuan.springbootroketmq.sys.rocketmqconfig.defualt;
+package com.liyuan.springbootroketmq.sys.rocketmqconfig.transaction;
 
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
@@ -18,12 +18,12 @@ import java.util.List;
  * @date 2019/12/3/00322:59
  */
 @Component
-public class RocketDefaultConsumerMsgListener implements MessageListenerConcurrently {
-    private static final Logger LOG = LoggerFactory.getLogger(RocketDefaultConsumerMsgListener.class) ;
-    private Logger logger = LoggerFactory.getLogger(RocketDefaultConsumerMsgListener.class);
+public class RocketMqTransactionConsumerMsgListener implements MessageListenerConcurrently {
+    private static final Logger LOG = LoggerFactory.getLogger(RocketMqTransactionConsumerMsgListener.class) ;
+    private Logger logger = LoggerFactory.getLogger(RocketMqTransactionConsumerMsgListener.class);
     @Override
     public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list, ConsumeConcurrentlyContext consumeConcurrentlyContext) {
-        logger.info("===============ConsumerTransactionListener=消费消息==============");
+        logger.info("===============TransactionConsumerNormalListener=消费消息==============");
         for (int i = 0; i < list.size(); i++) {
             MessageExt msg = list.get(i);
             String topic = msg.getTopic();

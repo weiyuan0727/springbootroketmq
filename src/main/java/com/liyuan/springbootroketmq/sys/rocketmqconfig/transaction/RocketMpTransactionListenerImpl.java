@@ -6,6 +6,7 @@ import org.apache.rocketmq.client.producer.TransactionListener;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.common.message.MessageExt;
 
+import java.io.UnsupportedEncodingException;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -19,18 +20,21 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Slf4j
 public class RocketMpTransactionListenerImpl implements TransactionListener  {
 
-    private ConcurrentHashMap<String, Integer> localTrans = new ConcurrentHashMap<>();
-
+    //本地业务
     @Override
     public LocalTransactionState executeLocalTransaction(Message msg, Object arg) {
         log.info("=====本地业务====");
-        return LocalTransactionState.COMMIT_MESSAGE;
+        return LocalTransactionState.UNKNOW;
     }
-
+    //事务回查
     @Override
     public LocalTransactionState checkLocalTransaction(MessageExt msg) {
-        Integer status = localTrans.get(msg.getTransactionId());
-        if (null != status) {
+        try {
+            log.info("===回查:"+new String(msg.getBody(),"utf-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+       /* if (null != status) {
             switch (status) {
                 case 0:
                     return LocalTransactionState.UNKNOW;
@@ -39,7 +43,7 @@ public class RocketMpTransactionListenerImpl implements TransactionListener  {
                 case 2:
                     return LocalTransactionState.ROLLBACK_MESSAGE;
             }
-        }
+        }*/
         return LocalTransactionState.COMMIT_MESSAGE;
     }
 }
