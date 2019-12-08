@@ -33,10 +33,14 @@ public class RocketMqDefaultOneConsumerConfig {
     @Resource
     private RocketDefaultOneConsumerMsgListener msgListener;
 
-    @Bean("defaultConsumer")
+    @Bean("defaultConsumerOne")
     public DefaultMQPushConsumer getRocketMQConsumer() {
+
+      /*  当消费者(不同jvm实例)都在同一台物理机上时，若指定instanceName，消费负载均衡将失效(每个实例都将消费所有消息)。
+        另外，在一个jvm里模拟集群消费时，必须指定不同的instanceName，
+        否则启动时会提示ConsumerGroup已存在。*/
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(groupName);
-        consumer.setNamesrvAddr(namesrvAddr);
+        consumer.setNamesrvAddr("192.168.188.138:9876");
         consumer.setInstanceName("one");//同一ip下同一jvm不可相同
         consumer.setConsumeThreadMin(consumeThreadMin);
         consumer.setConsumeThreadMax(consumeThreadMax);
@@ -47,7 +51,7 @@ public class RocketMqDefaultOneConsumerConfig {
             consumer.subscribe("myTestTopic", "*");
 
             consumer.start();
-            log.info("===消费者启动====");
+            log.info("===消费者(One)启动====");
         } catch (MQClientException e) {
             e.printStackTrace();
         }

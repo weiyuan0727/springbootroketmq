@@ -36,10 +36,11 @@ public class RocketMQDefaultProducerConfig {
 
 
     @Bean("defaultProducer")
-    @DependsOn("defaultConsumer")
+    @DependsOn(value = {"defaultConsumerOne"})
     public DefaultMQProducer getRocketMQProducer() {
         DefaultMQProducer producer;
-        producer = new DefaultMQProducer(this.groupName);
+        producer = new DefaultMQProducer("ttt");
+       // producer.setInstanceName("defualtProducer");
         producer.setNamesrvAddr(this.namesrvAddr);
         //如果需要同一个jvm中不同的producer往不同的mq集群发送消息，需要设置不同的instanceName
         if (this.maxMessageSize != null) {

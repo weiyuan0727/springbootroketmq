@@ -23,7 +23,6 @@ public class RocketDefaultOneConsumerMsgListener implements MessageListenerConcu
     private Logger logger = LoggerFactory.getLogger(RocketDefaultOneConsumerMsgListener.class);
     @Override
     public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> list, ConsumeConcurrentlyContext consumeConcurrentlyContext) {
-        logger.info("===============ConsumerTransactionListener=消费消息==============");
         for (int i = 0; i < list.size(); i++) {
             MessageExt msg = list.get(i);
             String topic = msg.getTopic();
