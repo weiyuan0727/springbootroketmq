@@ -19,10 +19,10 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Slf4j
-public class RocketMQDefaultProducerConfig {
+public class RocketMQDefaultProducerTwoConfig {
 
 
-    private static final Logger LOG = LoggerFactory.getLogger(RocketMQDefaultProducerConfig.class);
+    private static final Logger LOG = LoggerFactory.getLogger(RocketMQDefaultProducerTwoConfig.class);
     @Value("${rocketmq.producer.groupName}")
     private String groupName;//群组名 全局唯一
     @Value("${rocketmq.producer.namesrvAddr}")
@@ -35,13 +35,13 @@ public class RocketMQDefaultProducerConfig {
     private Integer retryTimesWhenSendFailed;//生产者重试次数
 
 
-    @Bean("defaultProducer")
+    @Bean("defaultProducerTwo")
     @DependsOn(value = {"defaultConsumerOne","defaultConsumerTwo"})
     public DefaultMQProducer getRocketMQProducer() {
         DefaultMQProducer producer;
         producer = new DefaultMQProducer("ttt");
-        producer.setInstanceName("defualtProducerOne");//如果有组名相同的
-        producer.setNamesrvAddr(this.namesrvAddr);
+        producer.setInstanceName("defualtProducerTwo");
+        producer.setNamesrvAddr("192.168.188.138:9876");
         //如果需要同一个jvm中不同的producer往不同的mq集群发送消息，需要设置不同的instanceName
         if (this.maxMessageSize != null) {
             producer.setMaxMessageSize(this.maxMessageSize);
