@@ -22,15 +22,14 @@ public class RocketMqProducerController {
     @Qualifier("defaultProducer")
     @Autowired
     private DefaultMQProducer defaultMQProducer;
-   /* @Qualifier("transactionProducer")
+    @Qualifier("transactionProducer")
     @Autowired
     private TransactionMQProducer transactionMQProducer;
-*/
-    /*@Autowired
-    @Qualifier("defaultTwoProducer")
+    @Autowired
+    @Qualifier("defaultProducerTwo")
     private DefaultMQProducer defaultMQProducertwo;
 
-*/
+
     @RequestMapping("sendToMqDefault")
     public String sendToMq() {
         for (int x = 0; x < 100; x++) {
@@ -39,7 +38,7 @@ public class RocketMqProducerController {
                 Message msg = new Message("myTestTopic" /* Topic */,
                         "TagA" /* Tag */,
                         Integer.toString(x),//keys
-                        ("Hello RocketMQ " + x).getBytes(RemotingHelper.DEFAULT_CHARSET) /* Message body */
+                        ("Hello RocketMQ 1" + x).getBytes(RemotingHelper.DEFAULT_CHARSET) /* Message body */
                 );
                 //Call send message to deliver message to one of brokers.
                 SendResult sendResult = defaultMQProducer.send(msg);
@@ -50,12 +49,12 @@ public class RocketMqProducerController {
         }
         //特别重要 @Bean创建的produser不能shutdown
         //defaultMQProducer.shutdown();
-       /* for (int x = 0; x < 100; x++) {
+        for (int x = 0; x < 100; x++) {
 
             try {
-                Message msg = new Message("test2" *//* Topic *//*,
-                        "TagA" *//* Tag *//*,
-                        ("Hello RocketMQtest2 " + x).getBytes(RemotingHelper.DEFAULT_CHARSET) *//* Message body *//*
+                Message msg = new Message("myTestTopic" /** Topic */,
+                        "TagA" /*** Tag */,
+                        ("Hello RocketMQ 2 " + x).getBytes(RemotingHelper.DEFAULT_CHARSET) /** Message body */
                 );
                 //Call send message to deliver message to one of brokers.
                 SendResult sendResult = defaultMQProducertwo.send(msg);
@@ -64,17 +63,16 @@ public class RocketMqProducerController {
                 e.printStackTrace();
             }
         }
-        defaultMQProducertwo.shutdown();
-*/
+
         return "ok";
     }
     @RequestMapping("sendTransaction")
     public String sendTranactionMesgToMq() {
-    /*    for (int x = 0; x < 100; x++) {
+      for (int x = 0; x < 100; x++) {
             try {
-                Message msg = new Message("myTestTransactionTopic" *//* Topic *//*,
-                        "TagA" *//* Tag *//*,
-                        ("测试事务消息").getBytes(RemotingHelper.DEFAULT_CHARSET) *//* Message body *//*
+                Message msg = new Message("myTestTransactionTopic" /** Topic */,
+                        "TagA" /* Tag */,
+                        ("测试事务消息").getBytes(RemotingHelper.DEFAULT_CHARSET) /* Message body */
                 );
                 //Call send message to deliver message to one of brokers.
                 SendResult sendResult = transactionMQProducer.sendMessageInTransaction(msg,"tq");
@@ -83,7 +81,8 @@ public class RocketMqProducerController {
                 e.printStackTrace();
             }
         }
-        transactionMQProducer.shutdown();*/
+            //不能shutdown @bean生成的producer
+        //transactionMQProducer.shutdown();
         return "ok";
     }
 }
