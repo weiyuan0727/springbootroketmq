@@ -40,7 +40,7 @@ public class RocketMqDefaultOneConsumerConfig {
         另外，在一个jvm里模拟集群消费时，必须指定不同的instanceName，
         否则启动时会提示ConsumerGroup已存在。*/
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(groupName);
-        consumer.setNamesrvAddr("192.168.188.138:9876");
+        consumer.setNamesrvAddr(namesrvAddr);
         consumer.setInstanceName("one");//同一ip下同一jvm不可相同
         consumer.setConsumeThreadMin(consumeThreadMin);
         consumer.setConsumeThreadMax(consumeThreadMax);

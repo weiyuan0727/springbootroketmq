@@ -38,6 +38,7 @@ public class RocketMqProducerController {
             try {
                 Message msg = new Message("myTestTopic" /* Topic */,
                         "TagA" /* Tag */,
+                        Integer.toString(x),//keys
                         ("Hello RocketMQ " + x).getBytes(RemotingHelper.DEFAULT_CHARSET) /* Message body */
                 );
                 //Call send message to deliver message to one of brokers.
@@ -47,8 +48,8 @@ public class RocketMqProducerController {
                 e.printStackTrace();
             }
         }
-        defaultMQProducer.shutdown();
-        System.out.println("发送完成");
+        //特别重要 @Bean创建的produser不能shutdown
+        //defaultMQProducer.shutdown();
        /* for (int x = 0; x < 100; x++) {
 
             try {
