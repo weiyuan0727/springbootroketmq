@@ -1,6 +1,5 @@
 package com.liyuan.springbootroketmq.sys.rocketmqconfig.transaction;
 
-import com.liyuan.springbootroketmq.sys.rocketmqconfig.defualt.RocketDefaultConsumerMsgListener;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.exception.MQClientException;
@@ -32,17 +31,19 @@ public class RocketMqTransactionConsumerConfig {
     @Value("${rocketmq.consumer.consumeMessageBatchMaxSize}")
     private int consumeMessageBatchMaxSize;
     @Resource
-    private RocketDefaultConsumerMsgListener msgListener;
+    private RocketMqTransactionConsumerMsgListener msgListener;
 
     @Bean("transactionConsumer")
     public DefaultMQPushConsumer getRocketMQConsumer() {
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer("testTransactionConsumerGroup");
-        consumer.setNamesrvAddr(namesrvAddr);
+        consumer.setNamesrvAddr("192.168.188.138:9876");
+       // consumer.setInstanceName("ttt");
         consumer.setConsumeThreadMin(consumeThreadMin);
         consumer.setConsumeThreadMax(consumeThreadMax);
         consumer.registerMessageListener(msgListener);
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_LAST_OFFSET);
         consumer.setConsumeMessageBatchMaxSize(consumeMessageBatchMaxSize);
+
         try {
             consumer.subscribe("myTestTransactionTopic", "*");
 

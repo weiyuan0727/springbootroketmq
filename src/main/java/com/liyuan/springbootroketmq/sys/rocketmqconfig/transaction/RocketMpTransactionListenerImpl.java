@@ -5,6 +5,7 @@ import org.apache.rocketmq.client.producer.LocalTransactionState;
 import org.apache.rocketmq.client.producer.TransactionListener;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.common.message.MessageExt;
+import org.springframework.stereotype.Component;
 
 import java.io.UnsupportedEncodingException;
 import java.util.concurrent.ConcurrentHashMap;
@@ -24,7 +25,7 @@ public class RocketMpTransactionListenerImpl implements TransactionListener  {
     @Override
     public LocalTransactionState executeLocalTransaction(Message msg, Object arg) {
         log.info("=====本地业务====");
-        return LocalTransactionState.UNKNOW;
+        return LocalTransactionState.UNKNOW;//测试回查
     }
     //事务回查
     @Override

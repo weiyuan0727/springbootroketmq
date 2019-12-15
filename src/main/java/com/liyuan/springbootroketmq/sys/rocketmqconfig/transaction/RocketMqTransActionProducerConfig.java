@@ -37,9 +37,9 @@ public class RocketMqTransActionProducerConfig {
     @Bean("transactionProducer")
     public TransactionMQProducer getTransactionProducer() {
         TransactionListener transactionListener = new RocketMpTransactionListenerImpl();
-        TransactionMQProducer producer = new TransactionMQProducer("transactionTestGroup");
-        producer.setNamesrvAddr("192.168.188.137:9786");
-
+        TransactionMQProducer producer = new TransactionMQProducer(groupName);
+        producer.setNamesrvAddr("192.168.188.138:9786");
+        //producer.setInstanceName("tran");
         producer.setCheckThreadPoolMinSize(5);
         producer.setCheckThreadPoolMaxSize(20);
         producer.setCheckRequestHoldMax(20000);
