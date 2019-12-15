@@ -18,6 +18,11 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @description: TODO
  * @date 2019/12/5/00522:44
  */
+/**
+ * 本地业务处理成功返回 COMMIT_MESSAGE
+ * 处理失败返回 ROLLBACK_MESSAGE
+ * UNKNOW 表示未知 消息依然是prepare状态不会推送给消费者
+ */
 @Slf4j
 public class RocketMpTransactionListenerImpl implements TransactionListener  {
 
@@ -25,6 +30,7 @@ public class RocketMpTransactionListenerImpl implements TransactionListener  {
     @Override
     public LocalTransactionState executeLocalTransaction(Message msg, Object arg) {
         log.info("=====本地业务====");
+
         return LocalTransactionState.UNKNOW;//测试回查
     }
     //事务回查
@@ -35,16 +41,9 @@ public class RocketMpTransactionListenerImpl implements TransactionListener  {
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-       /* if (null != status) {
-            switch (status) {
-                case 0:
-                    return LocalTransactionState.UNKNOW;
-                case 1:
-                    return LocalTransactionState.COMMIT_MESSAGE;
-                case 2:
-                    return LocalTransactionState.ROLLBACK_MESSAGE;
-            }
-        }*/
+        /**
+         * 根据具体业务返回消息的状态
+         */
         return LocalTransactionState.COMMIT_MESSAGE;
     }
 }
