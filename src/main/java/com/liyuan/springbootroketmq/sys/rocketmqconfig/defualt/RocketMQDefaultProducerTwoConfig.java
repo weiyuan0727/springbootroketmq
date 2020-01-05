@@ -41,7 +41,7 @@ public class RocketMQDefaultProducerTwoConfig {
         DefaultMQProducer producer;
         producer = new DefaultMQProducer("ttt");
         producer.setInstanceName("defualtProducerTwo");
-        producer.setNamesrvAddr("192.168.188.138:9876");
+        producer.setNamesrvAddr(this.namesrvAddr);
         //如果需要同一个jvm中不同的producer往不同的mq集群发送消息，需要设置不同的instanceName
         if (this.maxMessageSize != null) {
             producer.setMaxMessageSize(this.maxMessageSize);
